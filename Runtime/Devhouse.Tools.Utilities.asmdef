@@ -1,0 +1,22 @@
+{
+    "name": "Devhouse.Tools.Utilities",
+    "rootNamespace": "",
+    "references": [
+        "Unity.TextMeshPro",
+        "Cinemachine"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "DOTween.dll",
+        "Sirenix.Serialization.dll",
+        "Sirenix.OdinInspector.Attributes.dll"
+    ],
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -1,0 +1,19 @@
+{
+  "name": "com.devhouse.tools.utilities",
+  "version": "1.0.4",
+  "displayName": "Devhouse.Tools.Utilities",
+  "description": "Utilities package for Devhouse tools. Refer to documentation in ReadMe for details.\n\nRequires:\n  Odin Inspector",
+  "unity": "2021.3",
+  "documentationUrl": "https://github.com/The-Devhouse-Agency/Tools-Utilities",
+  "author": {
+    "name": "Devhouse",
+    "email": "contact@thedevhouseagency.com",
+    "url": "https://www.thedevhouseagency.com"
+  },
+  "dependencies": {
+    "com.unity.textmeshpro": "3.0.6",
+    "com.unity.cinemachine": "2.8.9"
+  }
+}
+
+
