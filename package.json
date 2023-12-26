@@ -1,14 +1,14 @@
 {
-  "name": "com.devhouse.tools.utilities",
+  "name": "com.hammerelf.tools.utilities",
   "version": "1.0.4",
-  "displayName": "Devhouse.Tools.Utilities",
-  "description": "Utilities package for Devhouse tools. Refer to documentation in ReadMe for details.\n\nRequires:\n  Odin Inspector",
+  "displayName": "HammerElf.Tools.Utilities",
+  "description": "Utilities package for custom tools. Refer to documentation in ReadMe for details.\n\nRequires:\n  Odin Inspector",
   "unity": "2021.3",
-  "documentationUrl": "https://github.com/The-Devhouse-Agency/Tools-Utilities",
+  "documentationUrl": "https://github.com/rking1189/Tools-Utilities",
   "author": {
-    "name": "Devhouse",
-    "email": "contact@thedevhouseagency.com",
-    "url": "https://www.thedevhouseagency.com"
+    "name": "HammerElf",
+    "email": "",
+    "url": ""
   },
   "dependencies": {
     "com.unity.textmeshpro": "3.0.6",
