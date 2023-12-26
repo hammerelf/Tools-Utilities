@@ -1,5 +1,5 @@
 {
-    "name": "Devhouse.Tools.Utilities",
+    "name": "HammerElf.Tools.Utilities",
     "rootNamespace": "",
     "references": [
         "Unity.TextMeshPro",
