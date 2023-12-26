@@ -14,7 +14,7 @@ Enables usage of a debug console at runtime, even in standalone
 ### Tips!
 - **toggle the console with \` (the tilde (~) key)**!
 - Run commands by typing their function name in the console. They are currently case sensitive.
-- You can add additional commands by adding them to a partial class named DebugCommands in the Devhouse.Tools.Utilities.Commands namespace
+- You can add additional commands by adding them to a partial class named DebugCommands in the HammerElf.Tools.Utilities.Commands namespace
 - You can display logs from the ConsoleLog utility by using the `ToggleLog` command!
 
 ---
@@ -94,7 +94,7 @@ Debug tool for quickly drawing gizmos into Unity without having to add OnDrawGiz
 
 Intended for quick, temporary debug drawing, and not for any long-term or permanent gizmos.
     
-### DHMath ⭐
+### MathFuncs ⭐
 Our growing in-house math library.
 Prominent functions:
 - LerpWithCurve()
