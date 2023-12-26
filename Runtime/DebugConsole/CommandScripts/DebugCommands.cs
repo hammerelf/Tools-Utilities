@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 /// sure if this works with non-primitive types.
 /// General commands that can be used in any app can go here. Game specific commands should be in a separate partial class.
 /// </summary>
-namespace Devhouse.Tools.Utilities.Commands
+namespace HammerElf.Tools.Utilities.Commands
 {
     public static partial class DebugCommands
     {

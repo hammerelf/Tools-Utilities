@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Devhouse.CatFishing
+namespace HammerElf.Tools.Utilities
 {
     public class ToggleDependency : MonoBehaviour
     {

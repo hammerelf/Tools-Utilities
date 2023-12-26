@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace Devhouse.Tools.Utilities
+namespace HammerElf.Tools.Utilities
 {
     [System.Serializable]
     public class SerializedDictionary<Key, Value> : Dictionary<Key, Value>, ISerializationCallbackReceiver

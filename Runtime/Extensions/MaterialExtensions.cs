@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine;
 
-namespace Devhouse.Tools.Utilities
+namespace HammerElf.Tools.Utilities
 {
     public enum BlendMode { Opaque, Cutout, Fade, Transparent }
     public static class MaterialExtensions

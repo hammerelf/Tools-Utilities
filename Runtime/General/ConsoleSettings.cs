@@ -2,7 +2,7 @@
 
 using UnityEngine;
 
-namespace Devhouse.Tools.Utilities
+namespace HammerElf.Tools.Utilities
 {
     [System.Serializable]
     public class ConsoleSettings

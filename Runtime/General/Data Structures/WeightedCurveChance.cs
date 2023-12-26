@@ -1,10 +1,10 @@
-//Created By: Julian Noel | julian@thedevhouseagency.com
+//Created By: Julian Noel
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace Devhouse.Tools.Utilities
+namespace HammerElf.Tools.Utilities
 {
 
     /// <summary>

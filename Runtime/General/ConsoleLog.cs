@@ -5,7 +5,7 @@ using UnityEngine;
 using System;
 using System.IO;
 
-namespace Devhouse.Tools.Utilities
+namespace HammerElf.Tools.Utilities
 {
     public static class ConsoleLog
     {

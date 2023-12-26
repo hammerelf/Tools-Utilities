@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Devhouse.Tools.Utilities
+namespace HammerElf.Tools.Utilities
 {
     public static class IEnumberableExtensions
     {

@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Devhouse.Tools.Utilities
+namespace HammerElf.Tools.Utilities
 {
     /// <summary>
     /// Given a list of WeightedChanceEntry<T>, returns a random entry value using each value's weight.

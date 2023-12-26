@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace Devhouse.Tools.Utilities
+namespace HammerElf.Tools.Utilities
 {
 	[DefaultExecutionOrder(-50)]
 	public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour

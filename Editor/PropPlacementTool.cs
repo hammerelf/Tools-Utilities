@@ -9,7 +9,7 @@ using UnityEditor;
 using Sirenix.OdinInspector.Editor;
 using System.Linq;
 
-namespace Devhouse.Tools.Utilities
+namespace HammerElf.Tools.Utilities
 {
     public class PropPlacementTool : OdinEditorWindow
     {
@@ -26,7 +26,7 @@ namespace Devhouse.Tools.Utilities
         private List<Rigidbody> generatedRigidBodies;
         private List<Collider> generatedColliders;
 
-        [MenuItem("Devhouse/Prop Placement Tool")]
+        [MenuItem("HammerElf/Prop Placement Tool")]
         private static void OpenWindow()
         {
             GetWindow<PropPlacementTool>().Show();
@@ -53,7 +53,8 @@ namespace Devhouse.Tools.Utilities
             }
 
             // Run simulation for maxIteration frames, or until all child rigidbodies are sleeping
-            Physics.autoSimulation = false;
+            //This line has been depricated. //Physics.autoSimulation = false;
+            Physics.simulationMode = SimulationMode.Script;
             
             for (int i = 0; i < maxIterations; i++)
             {
@@ -63,7 +64,8 @@ namespace Devhouse.Tools.Utilities
                     break;
                 }
             }
-            Physics.autoSimulation = true;
+            //This line has been depricated. //Physics.autoSimulation = true;
+            Physics.simulationMode = SimulationMode.FixedUpdate;
 
             foreach (SimulatedBody body in simulatedBodies)
             {

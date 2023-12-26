@@ -28,7 +28,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Cinemachine.Utility;
 
-namespace Devhouse.Tools.Utilities
+namespace HammerElf.Tools.Utilities
 {
     public static class PhysicsExtensions
     {

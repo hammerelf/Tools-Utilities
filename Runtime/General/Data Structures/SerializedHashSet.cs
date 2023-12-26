@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace Devhouse.Tools.Utilities
+namespace HammerElf.Tools.Utilities
 {
     [System.Serializable]
     public class SerializedHashSet<T> : HashSet<T>, ISerializationCallbackReceiver

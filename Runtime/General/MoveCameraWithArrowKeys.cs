@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Devhouse.Tools.Utilities
+namespace HammerElf.Tools.Utilities
 {
     [RequireComponent(typeof(Camera))]
     public class MoveCameraWithArrowKeys : MonoBehaviour

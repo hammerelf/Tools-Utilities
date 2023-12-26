@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Devhouse.Tools.Utilities
+namespace HammerElf.Tools.Utilities
 {
     /// <summary>
     /// Toggles the specified scripts on or off depending on whether or not we're in range of a given transform or bounding box

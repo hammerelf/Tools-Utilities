@@ -1,6 +1,6 @@
 using System.Linq;
 
-namespace Devhouse.Tools.Utilities
+namespace HammerElf.Tools.Utilities
 {
     /// <summary>
     /// A dictionary key that uses multiple objects as keys, limits use in that the key is not easily useable data.

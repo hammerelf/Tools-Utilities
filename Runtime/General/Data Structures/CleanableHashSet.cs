@@ -1,8 +1,7 @@
-using Devhouse.Tools.Utilities;
 using System;
 using System.Collections.Generic;
 
-namespace Devhouse.CatFishing
+namespace HammerElf.Tools.Utilities
 {
     public class CleanableHashSet<T> : HashSet<T>, ICleanable
     {

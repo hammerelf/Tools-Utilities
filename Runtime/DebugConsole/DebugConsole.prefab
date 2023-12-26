@@ -354,7 +354,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 331786417136978185}
-        m_TargetAssemblyTypeName: Devhouse.Tools.Utilities.DebugConsole, Assembly-CSharp
+        m_TargetAssemblyTypeName: HammerElf.Tools.Utilities.DebugConsole, Assembly-CSharp
         m_MethodName: ToggleOutputWindow
         m_Mode: 1
         m_Arguments:
@@ -1045,7 +1045,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 331786417136978185}
-        m_TargetAssemblyTypeName: Devhouse.Tools.Utilities.DebugConsole, Assembly-CSharp
+        m_TargetAssemblyTypeName: HammerElf.Tools.Utilities.DebugConsole, Assembly-CSharp
         m_MethodName: SubmitEntryInput
         m_Mode: 1
         m_Arguments:

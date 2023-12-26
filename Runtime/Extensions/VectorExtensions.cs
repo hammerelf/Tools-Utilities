@@ -1,7 +1,7 @@
 //Created by: Julian Noel
 using UnityEngine;
 
-namespace Devhouse.Tools.Utilities
+namespace HammerElf.Tools.Utilities
 {
     public static class VectorExtensions
     {

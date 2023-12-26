@@ -11,7 +11,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace Devhouse.Tools.Utilities
+namespace HammerElf.Tools.Utilities
 {
     //Requires an Event system in scene to be able to type in input field.
     public class DebugConsole : Singleton<DebugConsole>

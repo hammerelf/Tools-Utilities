@@ -2,12 +2,12 @@
 using System.Linq;
 using UnityEngine;
 
-namespace Devhouse.Tools.Utilities
+namespace HammerElf.Tools.Utilities
 {
     /// <summary>
-    /// Devhouse in-house math library
+    /// In-house math library
     /// </summary>
-    public static class DHMath
+    public static class MathFuncs
     {
         public enum NegativeValueHandler { MakePositive, KeepNegative, Truncate, ZeroOut }
 

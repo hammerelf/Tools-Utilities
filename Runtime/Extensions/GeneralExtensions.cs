@@ -8,7 +8,7 @@ using System.Reflection;
 using System.Linq;
 using System;
 
-namespace Devhouse.Tools.Utilities
+namespace HammerElf.Tools.Utilities
 {
     public static class GeneralExtensions
     {

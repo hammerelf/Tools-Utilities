@@ -3,7 +3,7 @@
 
 using UnityEngine;
 
-namespace Devhouse.Tools.Utilities
+namespace HammerElf.Tools.Utilities
 {
     public class GameObjectUtility : MonoBehaviour
     {
