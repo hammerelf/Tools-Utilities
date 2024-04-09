@@ -7,10 +7,13 @@ using HammerElf.Tools.Utilities;
 
 public class AssetImportPostProcessor : AssetPostprocessor
 {
+	int count = 0;
 	//Will create a folder under Assets called ScriptTemplates. All files under the ScriptTemplates
 	//folder in the package will be moved to that folder.
 	private void OnPreprocessAsset()
 	{
+		ConsoleLog.Log("Start preprocess count: " + count);
+		count++;
 		//AssetDatabase.CreateFolder("Assets", "ScriptTemplates");
 		//FileUtil.CopyFileOrDirectory("Packages/com.hammerelf.tools.utilities/Runtime/ScriptTemplates", "Assets/ScriptTemplates");
 
