@@ -17,9 +17,15 @@ public class AssetImportPostProcessor : AssetPostprocessor
 		//AssetDatabase.ImportAsset("Packages/com.hammerelf.tools.utilities/Runtime/ScriptTemplates/80-C#_Clean-NewCleanBehaviourScript.cs.txt");
 
 		if (assetImporter.assetPath.StartsWith("Packages/com.hammerelf.tools.utilities/Runtime/ScriptTemplates"))
-		{
-			// Check if the imported asset is one of the text files you want to move
-			if (assetImporter.assetPath.EndsWith(".txt") || assetImporter.assetPath.EndsWith(".meta")) // You can adjust the condition as needed
+        {
+			ConsoleLog.Log("Matched asset to process: \n" + assetImporter.assetPath);
+            if (!AssetDatabase.IsValidFolder("Assets/ScriptTemplates"))
+            {
+				AssetDatabase.CreateFolder("Assets", "ScriptTemplates");
+            }
+
+            // Check if the imported asset is one of the text files you want to move
+            if (assetImporter.assetPath.EndsWith(".txt") || assetImporter.assetPath.EndsWith(".meta")) // You can adjust the condition as needed
 			{
 				// Define the destination path in the Assets folder
 				string destinationPath = "Assets/ScriptTemplates/" + Path.GetFileName(assetImporter.assetPath);
