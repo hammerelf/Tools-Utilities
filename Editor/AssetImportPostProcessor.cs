@@ -1,9 +1,9 @@
 //Created by: Ryan King
 
 using UnityEditor;
-using UnityEngine;
 using System.IO;
-using HammerElf.Tools.Utilities;
+using System.Collections;
+using Unity.EditorCoroutines.Editor;
 
 [InitializeOnLoad]
 public class AssetImportPostProcessor : AssetPostprocessor
@@ -12,11 +12,6 @@ public class AssetImportPostProcessor : AssetPostprocessor
 
     static AssetImportPostProcessor()
     {
-        if(!AssetDatabase.IsValidFolder("Assets/ScriptTemplates"))
-        {
-            AssetDatabase.CreateFolder("Assets", "ScriptTemplates");
-        }
-
         if (!isSubscribed)
         {
             EditorApplication.projectChanged += OnProjectChanged;
@@ -36,9 +31,22 @@ public class AssetImportPostProcessor : AssetPostprocessor
     static void OnProjectChanged()
     {
         string[] txtFiles = Directory.GetFiles("Packages/com.hammerelf.tools.utilities/Runtime/ScriptTemplates", "*.txt");
-        foreach (string txtFile in txtFiles)
+
+        if (!AssetDatabase.IsValidFolder("Assets/ScriptTemplates"))
         {
-            FileUtil.CopyFileOrDirectory(txtFile, "Assets/ScriptTemplates");
+            AssetDatabase.CreateFolder("Assets", "ScriptTemplates");
+        }
+
+        EditorCoroutineUtility.StartCoroutineOwnerless(CopyAfterDelay(txtFiles, "Assets/ScriptTemplates"));
+    }
+
+    static IEnumerator CopyAfterDelay(string[] filePaths, string destinationPath)
+    {
+        yield return new EditorWaitForSeconds(0.1f);
+
+        foreach (string txtFile in filePaths)
+        {
+            FileUtil.CopyFileOrDirectory(txtFile, destinationPath);
         }
         AssetDatabase.Refresh();
     }
