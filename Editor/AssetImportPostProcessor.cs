@@ -30,6 +30,11 @@ public class AssetImportPostProcessor : AssetPostprocessor
 
     static void OnProjectChanged()
     {
+        if(!AssetDatabase.IsValidFolder("Assets/ScriptTemplates"))
+        {
+            AssetDatabase.CreateFolder("Assets", "ScriptTemplates");
+        }
+
         string[] txtFiles = Directory.GetFiles("Packages/com.hammerelf.tools.utilities/Runtime/ScriptTemplates", "*.txt");
         foreach (string txtFile in txtFiles)
         {
