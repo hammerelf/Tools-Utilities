@@ -11,6 +11,7 @@ public class AssetImportPostProcessor : AssetPostprocessor
     {
         foreach (string assetPath in importedAssets)
         {
+            ConsoleLog.Log("Checking path on: " + assetPath);
             if(assetPath.StartsWith("Packages/com.hammerelf.tools.utilities/UnityPackages") && assetPath.EndsWith(".unitypackage"))
             {
                 AssetDatabase.ImportPackage(assetPath, false);
