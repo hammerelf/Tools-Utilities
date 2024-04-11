@@ -40,15 +40,16 @@ public class AssetImportPostProcessor : AssetPostprocessor
         EditorCoroutineUtility.StartCoroutineOwnerless(CopyAfterDelay(txtFiles, "Assets/ScriptTemplates"));
     }
 
-    static IEnumerator CopyAfterDelay(string[] filePaths, string destinationPath)
+    static IEnumerator CopyAfterDelay(string[] filePaths, string destinationFolder)
     {
-        while(AssetDatabase.IsValidFolder(destinationPath))
+        while(AssetDatabase.IsValidFolder(destinationFolder))
         {
             yield return null;
         }
 
         foreach (string txtFile in filePaths)
         {
+            string destinationPath = Path.Combine(destinationFolder, Path.GetFileName(txtFile));
             FileUtil.CopyFileOrDirectory(txtFile, destinationPath);
         }
         AssetDatabase.Refresh();
