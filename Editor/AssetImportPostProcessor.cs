@@ -12,6 +12,11 @@ public class AssetImportPostProcessor : AssetPostprocessor
 
     static AssetImportPostProcessor()
     {
+        if (!AssetDatabase.IsValidFolder("Assets/ScriptTemplates"))
+        {
+            AssetDatabase.CreateFolder("Assets", "ScriptTemplates");
+        }
+
         if (!isSubscribed)
         {
             EditorApplication.projectChanged += OnProjectChanged;
@@ -31,11 +36,6 @@ public class AssetImportPostProcessor : AssetPostprocessor
     static void OnProjectChanged()
     {
         string[] txtFiles = Directory.GetFiles("Packages/com.hammerelf.tools.utilities/Runtime/ScriptTemplates", "*.txt");
-
-        if (!AssetDatabase.IsValidFolder("Assets/ScriptTemplates"))
-        {
-            AssetDatabase.CreateFolder("Assets", "ScriptTemplates");
-        }
 
         EditorCoroutineUtility.StartCoroutineOwnerless(CopyAfterDelay(txtFiles, "Assets/ScriptTemplates"));
     }
