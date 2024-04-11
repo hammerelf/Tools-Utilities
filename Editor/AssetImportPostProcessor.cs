@@ -42,7 +42,10 @@ public class AssetImportPostProcessor : AssetPostprocessor
 
     static IEnumerator CopyAfterDelay(string[] filePaths, string destinationPath)
     {
-        yield return new EditorWaitForSeconds(0.1f);
+        while(AssetDatabase.IsValidFolder(destinationPath))
+        {
+            yield return null;
+        }
 
         foreach (string txtFile in filePaths)
         {
