@@ -42,7 +42,7 @@ public class AssetImportPostProcessor : AssetPostprocessor
 
     static IEnumerator CopyAfterDelay(string[] filePaths, string destinationFolder)
     {
-        while(AssetDatabase.IsValidFolder(destinationFolder))
+        while(!AssetDatabase.IsValidFolder(destinationFolder))
         {
             yield return null;
         }
