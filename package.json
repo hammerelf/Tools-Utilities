@@ -1,6 +1,6 @@
 {
   "name": "com.hammerelf.tools.utilities",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "displayName": "HammerElf.Tools.Utilities",
   "description": "Utilities package for custom tools. Refer to documentation in ReadMe for details.\n\nRequires:\n  Odin Inspector",
   "unity": "2021.3",
