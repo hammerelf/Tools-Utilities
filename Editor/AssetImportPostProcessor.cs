@@ -50,7 +50,10 @@ public class AssetImportPostProcessor : AssetPostprocessor
         foreach (string txtFile in filePaths)
         {
             string destinationPath = Path.Combine(destinationFolder, Path.GetFileName(txtFile));
-            FileUtil.CopyFileOrDirectory(txtFile, destinationPath);
+            if (!File.Exists(destinationPath))
+            {
+                FileUtil.CopyFileOrDirectory(txtFile, destinationPath);
+            }
         }
         AssetDatabase.Refresh();
     }
