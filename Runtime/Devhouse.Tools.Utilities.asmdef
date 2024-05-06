@@ -14,9 +14,14 @@
         "Sirenix.Serialization.dll",
         "Sirenix.OdinInspector.Attributes.dll"
     ],
-    "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": [],
+    "versionDefines": [
+        {
+            "name": "com.unity.modules.physics",
+            "expression": "1",
+            "define": "USE_PHYSICS"
+        }
+    ],
     "noEngineReferences": false
 }
