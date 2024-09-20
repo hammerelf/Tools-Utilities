@@ -24,7 +24,7 @@ namespace HammerElf.Tools.Utilities
         private Transform outputContent;
         [LabelText("FPSCounter")]
         public TextMeshProUGUI fpsCounter;
-        public GameObject debugObject;
+        //public GameObject debugObject;
 
         private int windowState;
         private string previousEntry;
@@ -32,9 +32,10 @@ namespace HammerElf.Tools.Utilities
         public bool consoleLogOutputting;
         [HideInInspector]
         public bool unityLogOutputting = false;
+        private bool initialMethodCaching = false;
 
         private void Start()
-        {
+        { 
             //Keep FPSCounter updated
             StartCoroutine(UpdateFPSCounter());
         }
@@ -44,6 +45,13 @@ namespace HammerElf.Tools.Utilities
             //If BackQuote/Tilde is pressed it cycles through the window states.
             if(Input.GetKeyDown(KeyCode.BackQuote))
             {
+                if(!initialMethodCaching)
+                {
+                    // Cache all methods with the custom attribute once
+                    CacheDebugAttributeMethods();
+                    initialMethodCaching = true;
+                }
+
                 WindowStateToggle(windowState++);
 
                 entryInputField.text = entryInputField.text.Replace("`", "");
@@ -53,7 +61,7 @@ namespace HammerElf.Tools.Utilities
             if((Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) && EventSystem.current.currentSelectedGameObject
                 && EventSystem.current.currentSelectedGameObject.name == entryInputField.name)
             {
-                SubmitEntryInput();
+                SubmitAttributeEntryInput();
             }
 
             //Pressing up will set the entry field to the previously entered command.
@@ -257,5 +265,109 @@ namespace HammerElf.Tools.Utilities
 
             return combinedList.ToArray();
         }
+
+        private static Dictionary<string, MethodInfo> cachedMethods = new Dictionary<string, MethodInfo>();
+
+        public static void CacheDebugAttributeMethods()
+        {
+            foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
+            {
+                foreach (Type type in assembly.GetTypes())
+                {
+                    foreach (MethodInfo method in
+                             type.GetMethods(BindingFlags.Public | BindingFlags.NonPublic |
+                             BindingFlags.Static | BindingFlags.Instance))
+                    {
+                        if (method.GetCustomAttribute<DebugCommand>() != null)
+                        {
+                            // Add to cache with the method name as the key (you could also use a custom string)
+                            cachedMethods[method.Name.ToLower()] = method;
+
+                            //Console.WriteLine($"Calling method: {method.Name}");
+
+                            //// Check if the method is static or instance
+                            //if (method.IsStatic)
+                            //{
+                            //    // Call static method
+                            //    method.Invoke(null, null);
+                            //}
+                            //else
+                            //{
+                            //    // Create an instance of the class and call the method
+                            //    var instance = Activator.CreateInstance(method.DeclaringType);
+                            //    method.Invoke(instance, null);
+                            //}
+                        }
+                    }
+                }
+            }
+        }
+
+        public static MethodInfo GetCachedMethod(string methodName)
+        {
+            methodName = methodName.ToLower();
+            if (cachedMethods.TryGetValue(methodName, out MethodInfo method))
+            {
+                return method;
+            }
+            return null;
+        }
+
+        public void SubmitAttributeEntryInput()
+        {
+            previousEntry = entryInputField.text;
+            string outputBuilder = entryInputField.text;
+
+            string[] splitCommandText = QuotesAllowSpaces();
+            entryInputField.text = "";
+
+            //MethodInfo method = typeof(Commands.DebugCommands).GetMethod(splitCommandText[0], BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Static);
+            MethodInfo method = GetCachedMethod(splitCommandText[0]);
+
+            if (method == null)
+            {
+                ConsoleLog.Log("Method is null. splitCommandText[0]: " + splitCommandText[0]);
+                return;
+            }
+
+            // Create an array to hold the parsed arguments
+            object[] parameterArray = new object[method.GetParameters().Length];
+
+            for (int i = 0; i < method.GetParameters().Length; i++)
+            {
+                Type parameterType = method.GetParameters()[i].ParameterType;
+
+                try
+                {
+                    object value = Convert.ChangeType(splitCommandText[i + 1], parameterType);
+                    parameterArray[i] = value;
+                }
+                catch (TargetParameterCountException ex)
+                {
+                    Console.WriteLine($"Error parsing parameter {i}: {ex.Message}");
+                    parameterArray[i] = System.Type.Missing;
+                }
+            }
+
+            try
+            {
+                if (GetCachedMethod(splitCommandText[0]) != null)
+                {
+                    StartCoroutine(GoT());
+                    outputBuilder += " | " + GetCachedMethod(splitCommandText[0])?.Invoke(null, parameterArray);
+                }
+            }
+            catch (TargetParameterCountException)
+            {
+                ConsoleLog.LogWarning("Wrong number of parameters for method. Amount: " + parameterArray.Length, true);
+            }
+
+            AddOutputEntry(outputBuilder);
+
+            FocusInputField();
+        }
     }
+
+    [AttributeUsage(AttributeTargets.Method, Inherited = false)]
+    public class DebugCommand : Attribute { }
 }
