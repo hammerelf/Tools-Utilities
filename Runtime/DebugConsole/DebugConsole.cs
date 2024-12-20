@@ -91,7 +91,7 @@ namespace HammerElf.Tools.Utilities
                 yield return new WaitForSeconds(1f);
 
                 //how many frames happened in the past second
-                fpsCounter.text = (Time.frameCount - startingFrameCount).ToString();
+                if(fpsCounter) fpsCounter.text = (Time.frameCount - startingFrameCount).ToString();
             }
         }
 
