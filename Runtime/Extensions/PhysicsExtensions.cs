@@ -27,8 +27,11 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+#if NEW_CINEMACHINE
+using Unity.Cinemachine;
+#else
 using Cinemachine.Utility;
-
+#endif
 namespace HammerElf.Tools.Utilities
 {
     public static class PhysicsExtensions

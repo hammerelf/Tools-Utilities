@@ -3,7 +3,8 @@
     "rootNamespace": "",
     "references": [
         "Unity.TextMeshPro",
-        "Cinemachine"
+        "Cinemachine",
+        "Unity.Cinemachine"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
@@ -21,6 +22,11 @@
             "name": "com.unity.modules.physics",
             "expression": "1",
             "define": "USE_PHYSICS"
+        },
+        {
+            "name": "com.unity.cinemachine",
+            "expression": "3.1.1",
+            "define": "NEW_CINEMACHINE"
         }
     ],
     "noEngineReferences": false

@@ -24,7 +24,6 @@ namespace HammerElf.Tools.Utilities
         private Transform outputContent;
         [LabelText("FPSCounter")]
         public TextMeshProUGUI fpsCounter;
-        //public GameObject debugObject;
 
         private int windowState;
         private string previousEntry;
