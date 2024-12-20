@@ -60,6 +60,7 @@ namespace HammerElf.Tools.Utilities
             if((Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) && EventSystem.current.currentSelectedGameObject
                 && EventSystem.current.currentSelectedGameObject.name == entryInputField.name)
             {
+                //SubmitEntryInput();
                 SubmitAttributeEntryInput();
             }
 
@@ -266,10 +267,14 @@ namespace HammerElf.Tools.Utilities
         }
 
         private static Dictionary<string, MethodInfo> cachedMethods = new Dictionary<string, MethodInfo>();
-
+        
         public static void CacheDebugAttributeMethods()
         {
-            foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
+            //Filter to only include assemblies from the project (e.g., Assembly-CSharp)
+            IEnumerable<Assembly> projectAssemblies = AppDomain.CurrentDomain.GetAssemblies().Where(assembly =>
+                assembly.GetName().Name.StartsWith("Assembly-CSharp"));
+
+            foreach (Assembly assembly in projectAssemblies)
             {
                 foreach (Type type in assembly.GetTypes())
                 {
@@ -300,6 +305,8 @@ namespace HammerElf.Tools.Utilities
                     }
                 }
             }
+
+            ConsoleLog.Log("Caching methods complete. Total cached is " + cachedMethods.Count);
         }
 
         public static MethodInfo GetCachedMethod(string methodName)
@@ -350,15 +357,42 @@ namespace HammerElf.Tools.Utilities
 
             try
             {
-                if (GetCachedMethod(splitCommandText[0]) != null)
+                object targetInstance = null;
+
+                if (method.IsStatic)
                 {
+                    // Static method, no instance needed
                     StartCoroutine(GoT());
-                    outputBuilder += " | " + GetCachedMethod(splitCommandText[0])?.Invoke(null, parameterArray);
+                    outputBuilder += " | " + method.Invoke(null, parameterArray);
+                }
+                else
+                {
+                    // Non-static method
+                    if (typeof(MonoBehaviour).IsAssignableFrom(method.DeclaringType))
+                    {
+                        // Find or create a MonoBehaviour instance
+                        var existingInstance = GameObject.FindFirstObjectByType(method.DeclaringType);
+                        if (existingInstance == null)
+                        {
+                            // Optionally create a new instance
+                            GameObject newGameObject = new GameObject(method.DeclaringType.Name);
+                            existingInstance = newGameObject.AddComponent(method.DeclaringType) as MonoBehaviour;
+                        }
+                        targetInstance = existingInstance;
+                    }
+                    else
+                    {
+                        // Create a new instance for regular classes
+                        targetInstance = Activator.CreateInstance(method.DeclaringType);
+                    }
+
+                    StartCoroutine(GoT());
+                    outputBuilder += " | " + method.Invoke(targetInstance, parameterArray);
                 }
             }
-            catch (TargetParameterCountException)
+            catch (Exception ex)
             {
-                ConsoleLog.LogWarning("Wrong number of parameters for method. Amount: " + parameterArray.Length, true);
+                ConsoleLog.LogWarning($"Error invoking method: {ex.Message}", true);
             }
 
             AddOutputEntry(outputBuilder);
