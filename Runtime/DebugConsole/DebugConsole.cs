@@ -266,56 +266,94 @@ namespace HammerElf.Tools.Utilities
             return combinedList.ToArray();
         }
 
-        private static Dictionary<string, MethodInfo> cachedMethods = new Dictionary<string, MethodInfo>();
-        
-        public static void CacheDebugAttributeMethods()
+        //private static Dictionary<string, MethodInfo> cachedMethods = new Dictionary<string, MethodInfo>();
+        private Dictionary<string, MethodInfo> registeredMethods = new Dictionary<string, MethodInfo>();
+        //private Dictionary<string, object> methodOwners = new Dictionary<string, object>();
+
+        private void CacheDebugAttributeMethods()
         {
-            //Filter to only include assemblies from the project (e.g., Assembly-CSharp)
-            IEnumerable<Assembly> projectAssemblies = AppDomain.CurrentDomain.GetAssemblies().Where(assembly =>
-                assembly.GetName().Name.StartsWith("Assembly-CSharp"));
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
 
-            foreach (Assembly assembly in projectAssemblies)
+            var projectAssemblies = assemblies.Where(assembly =>
             {
-                foreach (Type type in assembly.GetTypes())
+                if (assembly.IsDynamic)
                 {
-                    foreach (MethodInfo method in
-                             type.GetMethods(BindingFlags.Public | BindingFlags.NonPublic |
-                             BindingFlags.Static | BindingFlags.Instance))
+                    return false;
+                }
+                var location = assembly.Location;
+
+                if (!string.IsNullOrEmpty(location) && (location.Replace("\\", "/").Contains("/Assets/") ||
+                                                        (location.Replace("\\", "/").Contains("/ScriptAssemblies/") &&
+                                                        !location.Replace("\\", "/").Contains("/ScriptAssemblies/Unity"))))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            });
+
+            foreach (var assembly in projectAssemblies)
+            {
+                foreach (var type in assembly.GetTypes())
+                {
+                    RegisterMethodsFromType(type);
+                }
+            }
+        }
+
+        private void RegisterMethodsFromType(Type type)
+        {
+            var methods = type.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+
+            foreach (var method in methods)
+            {
+                if (method.GetCustomAttribute<DebugCommand>() != null)
+                {
+                    // Ensure method matches the desired signature (optional)
+                    if (method.GetParameters().Length == 0) // For now, we assume parameterless methods
                     {
-                        if (method.GetCustomAttribute<DebugCommand>() != null)
+                        var instance = FindFirstObjectByType(type);
+                        if (instance != null)
                         {
-                            // Add to cache with the method name as the key (you could also use a custom string)
-                            cachedMethods[method.Name.ToLower()] = method;
-
-                            //Console.WriteLine($"Calling method: {method.Name}");
-
-                            //// Check if the method is static or instance
-                            //if (method.IsStatic)
-                            //{
-                            //    // Call static method
-                            //    method.Invoke(null, null);
-                            //}
-                            //else
-                            //{
-                            //    // Create an instance of the class and call the method
-                            //    var instance = Activator.CreateInstance(method.DeclaringType);
-                            //    method.Invoke(instance, null);
-                            //}
+                            registeredMethods[method.Name] = method;
+                            //methodOwners[method.Name] = instance;
                         }
+                        else
+                        {
+                            Debug.LogWarning($"No instance of {type.Name} found to register method {method.Name}.");
+                        }
+                    }
+                    else
+                    {
+                        Debug.LogWarning($"Method {method.Name} in {type.Name} does not match the required signature.");
                     }
                 }
             }
-
-            ConsoleLog.Log("Caching methods complete. Total cached is " + cachedMethods.Count);
         }
 
-        public static MethodInfo GetCachedMethod(string methodName)
+        //public void InvokeMethod(string methodName)
+        //{
+        //    if (registeredMethods.TryGetValue(methodName, out var methodInfo) &&
+        //        methodOwners.TryGetValue(methodName, out var instance))
+        //    {
+        //        methodInfo.Invoke(instance, null);
+        //    }
+        //    else
+        //    {
+        //        Debug.LogWarning($"Method {methodName} not found in the registry.");
+        //    }
+        //}
+
+        public MethodInfo GetMethodInfo(string methodName)
         {
-            methodName = methodName.ToLower();
-            if (cachedMethods.TryGetValue(methodName, out MethodInfo method))
+            if (registeredMethods.TryGetValue(methodName, out var methodInfo))
             {
-                return method;
+                return methodInfo;
             }
+
+            Debug.LogWarning($"Method {methodName} not found in the registry.");
             return null;
         }
 
@@ -327,8 +365,7 @@ namespace HammerElf.Tools.Utilities
             string[] splitCommandText = QuotesAllowSpaces();
             entryInputField.text = "";
 
-            //MethodInfo method = typeof(Commands.DebugCommands).GetMethod(splitCommandText[0], BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Static);
-            MethodInfo method = GetCachedMethod(splitCommandText[0]);
+            MethodInfo method = GetMethodInfo(splitCommandText[0]);
 
             if (method == null)
             {
@@ -336,7 +373,6 @@ namespace HammerElf.Tools.Utilities
                 return;
             }
 
-            // Create an array to hold the parsed arguments
             object[] parameterArray = new object[method.GetParameters().Length];
 
             for (int i = 0; i < method.GetParameters().Length; i++)
@@ -361,7 +397,6 @@ namespace HammerElf.Tools.Utilities
 
                 if (method.IsStatic)
                 {
-                    // Static method, no instance needed
                     StartCoroutine(GoT());
                     outputBuilder += " | " + method.Invoke(null, parameterArray);
                 }
@@ -370,11 +405,9 @@ namespace HammerElf.Tools.Utilities
                     // Non-static method
                     if (typeof(MonoBehaviour).IsAssignableFrom(method.DeclaringType))
                     {
-                        // Find or create a MonoBehaviour instance
                         var existingInstance = GameObject.FindFirstObjectByType(method.DeclaringType);
                         if (existingInstance == null)
                         {
-                            // Optionally create a new instance
                             GameObject newGameObject = new GameObject(method.DeclaringType.Name);
                             existingInstance = newGameObject.AddComponent(method.DeclaringType) as MonoBehaviour;
                         }
@@ -382,7 +415,6 @@ namespace HammerElf.Tools.Utilities
                     }
                     else
                     {
-                        // Create a new instance for regular classes
                         targetInstance = Activator.CreateInstance(method.DeclaringType);
                     }
 

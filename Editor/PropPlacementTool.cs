@@ -145,7 +145,8 @@ namespace HammerElf.Tools.Utilities
                 transform.rotation = originalRotation;
                 if(rigidbody != null)
                 {
-                    rigidbody.linearVelocity = Vector3.zero;
+                    //LinearVelocity depricated
+                    //rigidbody.linearVelocity = Vector3.zero;
                     rigidbody.angularVelocity = Vector3.zero;
                 }
             }
