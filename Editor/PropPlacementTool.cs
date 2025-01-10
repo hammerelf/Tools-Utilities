@@ -37,7 +37,7 @@ namespace HammerElf.Tools.Utilities
         public void SimulatePhysics() 
         {
             AutoGenerateComponents();
-            simulatedBodies = FindObjectsOfType<Rigidbody>().Select(rb => 
+            simulatedBodies = FindObjectsByType<Rigidbody>(FindObjectsSortMode.None).Select(rb => 
                     new SimulatedBody(rb.GetComponent<Rigidbody>(), Selection.transforms.Any(x => rb.transform == x))
                     ).ToArray();
 
