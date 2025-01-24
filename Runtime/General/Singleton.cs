@@ -28,9 +28,20 @@ namespace HammerElf.Tools.Utilities
 			{
 				DontDestroyOnLoad(transform.root);
 			}
-		}
 
-		protected virtual void OnApplicationQuit()
+			OnSingletonAwake();
+        }
+
+		/// <summary>
+		/// Override this to implement Awake functionality. This prevents the inherited Awake from
+        /// being recalled every scene change.
+		/// </summary>
+        protected virtual void OnSingletonAwake()
+        {
+
+        }
+
+        protected virtual void OnApplicationQuit()
 		{
 			Instance = null;
 			Destroy(gameObject);
